@@ -1,0 +1,299 @@
+/Users/daochengmo/Desktop/netflix.csv
+
+package aproject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class TitleDatabase {
+    private List<TVProgram> titles;
+
+    public TitleDatabase() {
+        titles = new ArrayList<>();
+    }
+
+    public void addTitle(TVProgram title) {
+        titles.add(title);
+    }
+
+    public boolean deleteTitle(String titleName) {
+        for (int i = 0; i < titles.size(); i++) {
+            if (titles.get(i).getTitle().equals(titleName)) {
+                titles.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<TVProgram> searchTitlesByAttribute(String attribute, String value) {
+        List<TVProgram> result = new ArrayList<>();
+    
+        for (TVProgram title : titles) {
+            switch (attribute.toLowerCase()) {
+                case "rating":
+                    if (title.getRating().equals(value)) {
+                        result.add(title);
+                    }
+                    break;
+                case "director":
+                    if (title.getDirectors().equals(value)) {
+                        result.add(title);
+                    }
+                    break;
+                case "genre":
+                    if (title.getGenre().equals(value)) {
+                        result.add(title);
+                    }
+                    break;
+                case "duration":
+                    int durationRange = Integer.parseInt(value);
+                    int duration = title.getDuration();
+                    boolean withinRange = false;
+                    switch (durationRange) {
+                        case 1:
+                            withinRange = (duration >= 0 && duration <= 30);
+                            break;
+                        case 2:
+                            withinRange = (duration >= 31 && duration <= 60);
+                            break;
+                        case 3:
+                            withinRange = (duration >= 61 && duration <= 90);
+                            break;
+                        case 4:
+                            withinRange = (duration >= 91 && duration <= 120);
+                            break;
+                        case 5:
+                            withinRange = (duration >= 121 && duration <= 150);
+                            break;
+                        case 6:
+                            withinRange = (duration >= 151 && duration <= 180);
+                            break;
+                    }
+                    if (withinRange) {
+                        result.add(title);
+                    }
+                    break;
+                case "country":
+                    if (title.getCountry().equals(value)) {
+                        result.add(title);
+                    }
+                    break;
+                case "year":
+                    if (title.getReleaseYear() == Integer.parseInt(value)) {
+                        result.add(title);
+                    }
+                    break;
+            }
+        }
+    
+        return result;
+    }
+    
+
+    public boolean modifyTitle(String titleName, String attribute, String newValue) {
+        for (TVProgram title : titles) {
+            if (title.getTitle().equals(titleName)) {
+                switch (attribute.toLowerCase()) {
+                    case "rating":
+                        title.setRating(newValue);
+                        return true;
+                    case "director":
+                        title.setDirectors(newValue);
+                        return true;
+                    case "genre":
+                        title.setGenre(newValue);
+                        return true;
+                    case "duration":
+                        title.setDuration(Integer.parseInt(newValue));
+                        return true;
+                    case "country":
+                        title.setCountry(newValue);
+                        return true;
+                    case "year":
+                        title.setReleaseYear(Integer.parseInt(newValue));
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+
+package aproject.project2;
+
+public class Movie extends TVProgram {
+    public Movie(String title, String genre, String country, int releaseYear, String rating, String directors, int duration) {
+        super(title, genre, country, releaseYear, rating, directors, duration);
+    }
+
+    public String getTitle() {
+        return super.getTitle();
+    }
+
+    public String getDirectors() {
+        return super.getDirectors();
+    }
+
+    public String getCountry() {
+        return super.getCountry();
+    }
+
+    public String getRating() {
+        return super.getRating();
+    }
+
+    public int getReleaseYear() {
+        return super.getReleaseYear();
+    }
+
+    public int getDuration() {
+        return super.getDuration();
+    }
+
+    public String getGenre() {
+        return super.getGenre();
+    }
+    public void writeOutput(){
+        System.out.println("Here is the created Movie");
+        System.out.println("Movie Title: " + getTitle());
+        System.out.println("Movie Director: " + getDirectors());
+        System.out.println("Movie Country: " + getCountry());
+        System.out.println("Movie Release year: " + getReleaseYear());
+        System.out.println("Movie Rating: " + getRating());
+        System.out.println("Movie Duration: " + getDuration());
+        System.out.println("Movie Genre: " + getGenre());
+
+    }
+}
+
+package aproject.project2;
+
+public class TVProgram {
+    private String title;
+    private String genre;
+    private String country;
+    private int releaseYear;
+    private String rating;
+    private String directors;
+    private int duration;
+
+    public TVProgram(){
+        directors = "";
+        country = "";
+        duration = 0;
+    }
+
+    public TVProgram(String title, String genre, String country, int releaseYear, String rating, String directors, int duration) {
+        this.title = title;
+        this.genre = genre;
+        this.country = country;
+        this.releaseYear = releaseYear;
+        this.rating = rating;
+        this.directors = directors;
+        this.duration = duration;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+
+    public void setReleaseYear(int releaseYear) {
+        this.releaseYear = releaseYear;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    public String getDirectors() {
+        return directors;
+    }
+
+    public void setDirectors(String directors) {
+        this.directors = directors;
+    }
+}
+
+package aproject.project2;
+
+public class TVShow extends TVProgram {
+    public TVShow(String title, String genre, String country, int releaseYear, String rating, String director, int duration) {
+        super(title, genre, country, releaseYear, rating, director, duration);
+    }
+
+    public String getTitle() {
+        return super.getTitle();
+    }
+
+    public String getDirector() {
+        return super.getDirectors();
+    }
+
+    public String getCountry() {
+        return super.getCountry();
+    }
+
+    public String getRating() {
+        return super.getRating();
+    }
+
+    public int getReleaseYear() {
+        return super.getReleaseYear();
+    }
+
+    public int getDuration() {
+        return super.getDuration();
+    }
+
+    public String getGenre() {
+        return super.getGenre();
+    }
+    public void writeOutput(){
+        System.out.println("Here is the created TV Show");
+        System.out.println("TV Show Title: " + getTitle());
+        System.out.println("TV Show Director: " + getDirectors());
+        System.out.println("TV Show Country: " + getCountry());
+        System.out.println("TV Show Release year: " + getReleaseYear());
+        System.out.println("TV Show Rating: " + getRating());
+        System.out.println("TV Show Duration: " + getDuration());
+        System.out.println("TV Show Genre: " + getGenre());
+
+    }
+}
